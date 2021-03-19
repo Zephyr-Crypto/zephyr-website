@@ -6,15 +6,10 @@ import { YFKA_EXCHANGE_ABI } from '../abi/YfkaExchange';
 
 // Provider Details --------------------------------------------------------------//
 
-const ALCHEMY_MAINNET_PROJECT_ID = process.env.REACT_APP_ALCHEMY_MAINNET_PROJECT_ID;
-const ALCHEMY_KOVAN_PROJECT_ID = process.env.REACT_APP_ALCHEMY_KOVAN_PROJECT_ID;
-
-const MAINNET_PROVIDER = ethers.getDefaultProvider("homestead", {
-    alchemy: ALCHEMY_MAINNET_PROJECT_ID
-});
-
-const KOVAN_PROVIDER = ethers.getDefaultProvider("kovan", {
-    alchemy: ALCHEMY_KOVAN_PROJECT_ID
+//Switch to "homestead" to interact with mainnet
+export const WEB3_PROVIDER = ethers.getDefaultProvider("kovan", {
+    alchemy: process.env.REACT_APP_ALCHEMY_PROJECT_ID,
+    infura: process.env.REACT_APP_INFURA_PROJECT_ID
 });
 
 // Addresses ---------------------------------------------------------------------//
@@ -29,8 +24,6 @@ export const YFKA_EXCHANGE_ADDRESS = "0x8B86064A1bc4F2FC56fD5aC0aEfCbaC26F710771
 
 // Contracts ---------------------------------------------------------------------//
       
-export const WEB3_PROVIDER = KOVAN_PROVIDER;
-
 export const ZEPHYR_TOKEN = new ethers.Contract(ZEPHYR_TOKEN_ADDRESS, IERC20_ABI, WEB3_PROVIDER);
 export const REBASE_CONTROLLER = new ethers.Contract(REBASE_CONTROLLER_ADDRESS, REBASE_CONTROLLER_ABI, WEB3_PROVIDER);
 export const UNISWAP_POOL = new ethers.Contract(UNISWAP_POOL_ADDRESS, IERC20_ABI, WEB3_PROVIDER);
