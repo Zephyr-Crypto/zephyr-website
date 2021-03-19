@@ -759,7 +759,7 @@ function App() {
     }
 
     const displayYfkaExchangeRate = () => {
-        return yfkaExchangeRate >= 0 ? yfkaExchangeRate.div(10**9).toString() : "...";
+        return yfkaExchangeRate >= 0 ? Number(yfkaExchangeRate / 10**9).toLocaleString() : "...";
     }
 
     const displayUserYfkaExchanged = () => {
