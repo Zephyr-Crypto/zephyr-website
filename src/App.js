@@ -231,7 +231,7 @@ function App() {
         if (percentChange || percentChange == 0) {
             let direction;
             if (percentChange == 0) direction = ""; else direction = percentChange > 0 ? "Increase" : "Decrease";
-            return percentChange.toFixed(5) + "%" + " " + direction;
+            return percentChange.toFixed(5) + "% " + direction;
         } else {
             return "...";
         }
@@ -334,20 +334,6 @@ function App() {
                 console.log(e);
             }
         })();
-
-        //Data beyond this point requires metamask and a user account
-        if (!window.ethereum) return;
-        
-        //If an account is already exposed, then use it
-        (async () => {
-            const accounts = await window.ethereum.request({method: "eth_accounts"});
-            if (accounts.length > 0) onAccountChanged(accounts[0]);
-        })();
-
-        //Listen for account changes and update the UI accordingly
-        window.ethereum.on("accountsChanged", (accounts) => {
-            if (accounts.length > 0) onAccountChanged(accounts[0]);
-        });
 
     }, []);
 
@@ -638,20 +624,6 @@ function App() {
             }
         })();
 
-        //Data beyond this point requires metamask and a user account
-        if (!window.ethereum) return;
-
-        //If an account is already exposed, then use it
-        (async () => {
-            const accounts = await window.ethereum.request({method: "eth_accounts"});
-            if (accounts.length > 0) onAccountChanged(accounts[0]);
-        })();
-
-        //Listen for account changes and update the UI accordingly
-        window.ethereum.on("accountsChanged", (accounts) => {
-            if (accounts.length > 0) onAccountChanged(accounts[0]);
-        });
-
     }, []);
 
     async function EXCHANGE() {
@@ -785,6 +757,24 @@ function App() {
     function toDays(seconds) {
         return Math.floor(seconds / 86400);
     }
+
+    useEffect(() => {
+
+        //Data beyond this point requires metamask and a user account
+        if (!window.ethereum) return;
+
+        //If an account is already exposed, then use it
+        (async () => {
+            const accounts = await window.ethereum.request({method: "eth_accounts"});
+            if (accounts.length > 0) onAccountChanged(accounts[0]);
+        })();
+
+        //Listen for account changes and update the UI accordingly
+        window.ethereum.on("accountsChanged", (accounts) => {
+            if (accounts.length > 0) onAccountChanged(accounts[0]);
+        });
+
+    }, []);
 
     async function onAccountChanged(address) {
 
