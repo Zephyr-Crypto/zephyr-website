@@ -7,6 +7,7 @@ import swal from '@sweetalert/with-react';
 import { ethers } from 'ethers';
 import { FaTelegramPlane } from 'react-icons/fa';
 import { FaGithub } from 'react-icons/fa';
+import { MdRefresh } from 'react-icons/md';
 
 import { YFKA_EXCHANGE, ZEPHYR_TOKEN } from './config/Web3Config';
 import { REBASE_CONTROLLER } from './config/Web3Config';
@@ -940,6 +941,11 @@ function App() {
 
                     </div>
 
+                </div>
+
+                <div className="activities__refresh"
+                    onClick={() => window.location.reload()}>
+                        <MdRefresh size={28}/><span>Refresh blockchain data after transactions</span>
                 </div>
 
             </section>
