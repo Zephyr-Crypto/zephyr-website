@@ -682,7 +682,7 @@ function App() {
         setExchangeApproving(true);
 
         //Make sure the limit hasn't been reached
-        if(yfkaExchanged >= yfkaExchangeLimit) {
+        if(yfkaExchanged.gte(yfkaExchangeLimit)) {
             return swal({
                 className: "app__swal",
                 button: false,
@@ -751,7 +751,7 @@ function App() {
     }
 
     const displayExchangeRewardsRemaining = () => {
-        return exchangeRewardsRemaining >= 0 ? Number(exchangeRewardsRemaining / 10**9).toLocaleString() : "...";
+        return exchangeRewardsRemaining >= 0 ? Math.floor(Number(exchangeRewardsRemaining / 10**9)).toLocaleString() : "...";
     }
 
     const displayMaxExchangeAmount = () => {
@@ -929,7 +929,7 @@ function App() {
                         <div className="activity__statistics activity__exchange">
                             <h1>{displayYfkaExchanged()}</h1>
                             <p>YFKA Limit: {displayYfkaExchangeLimit()}</p>
-                            <p>ZPHR Remaining: {displayExchangeRewardsRemaining()}</p>
+                            <p>ZPHR Available: {displayExchangeRewardsRemaining()}</p>
                             <p>Exchange Rate: {displayYfkaExchangeRate()}</p>
                             <p>Your YFKA Exchanged: {displayUserYfkaExchanged()}</p>
                             <p>Your ZPHR Redeemed: {displayUserZphrRedeemed()}</p>
