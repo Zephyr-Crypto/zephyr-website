@@ -1,4 +1,4 @@
-export const BTS_DISTRIBUTION_ABI = [
+export const DISTRIBUTION_ABI = [
     {
       "anonymous": false,
       "inputs": [
