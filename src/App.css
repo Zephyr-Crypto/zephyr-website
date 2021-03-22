@@ -487,6 +487,10 @@
         flex-direction: row;
     }
 
+    .activities__blockchainSwitch p {
+        font-size: .9rem;
+    }
+
     .activity__description {
         max-width: 30rem;
     }
