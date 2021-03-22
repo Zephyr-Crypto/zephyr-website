@@ -69,9 +69,9 @@ function App() {
     useEffect(() => {
 
         //Network ID to use if Metamask isn't present
-        const network = 42;
+        const network = 56;
 
-        //If Metamask isn't present, then just go with Eth
+        //If Metamask isn't present, then just use the default
         if (!window.ethereum) return onNetworkChanged(network);
 
         //If a network is already exposed, then use it
@@ -107,6 +107,8 @@ function App() {
     //https://chainid.network/
     function onNetworkChanged(id) {
 
+        if (id == networkId) return;
+
         networkId.current = id;
         web3Provider.current = getWeb3Provider(id);
         setContractAddresses(id);
@@ -139,7 +141,7 @@ function App() {
     function getWeb3Provider(id = ref(networkId)) {
 
         //BSC Mainnet
-        if (id == 56) return new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org:443");
+        if (id == 56) return new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org");
         
         //BSC Testnet
         if (id == 97) return new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545");
@@ -195,6 +197,17 @@ function App() {
 
     function setContractAddresses(id = ref(networkId)) {
 
+        //Mainnet
+        if (id == 1) {
+            zephyrTokenAddress.current = "0xb7cc4ad11833b20C07739c4152E73E32Fc5b6413";
+            rebaseControllerAddress.current = "";
+            distributionAddress.current = "";
+            uniswapPoolAddress.current = "";
+            stakingPoolAddress.current = "";
+            yfkaTokenAddress.current = "";
+            yfkaExchangeAddress.current = "";
+        }
+
         //Kovan
         if (id == 42) {
             zephyrTokenAddress.current = "0x8f3c40ba8e2f970fE5980118d5dBE0995A03072B";
@@ -213,6 +226,17 @@ function App() {
             distributionAddress.current = undefined;
             uniswapPoolAddress.current = undefined;
             stakingPoolAddress.current = undefined;
+            yfkaTokenAddress.current = undefined;
+            yfkaExchangeAddress.current = undefined;
+        }
+
+        //BSC Mainnet
+        if (id == 56) {
+            zephyrTokenAddress.current = "0xb7cc4ad11833b20C07739c4152E73E32Fc5b6413";
+            rebaseControllerAddress.current = "0x49d2fd0995B3C51840017D54aAEc750069dF5d8d";
+            distributionAddress.current = "0xB57F8AA6447f48e8524ae9b7dbc430235D0D32AA";
+            uniswapPoolAddress.current = "0x4377e69CC001cE7c381d55Ce96e8C358a1F99A34";
+            stakingPoolAddress.current = "0x0c8a441267018e734c4779560e85a1F43363224C";
             yfkaTokenAddress.current = undefined;
             yfkaExchangeAddress.current = undefined;
         }
@@ -554,7 +578,7 @@ function App() {
                 if (ref(MOUNTED)) swal({
                     className: "app__swal",
                     button: false,
-                    content: <p>Your claim was submitted to the blockchain to be confirmed, so you should see the tokens in your wallet in a moment.  Awesome!  You can check the transaction <a href={"https://kovan.etherscan.io/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
+                    content: <p>Your claim was submitted to the blockchain to be confirmed, so you should see the tokens in your wallet in a moment.  Awesome!  You can check the transaction <a href={"https://bscscan.com/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
                 });
 
             } catch (e) {
@@ -581,7 +605,7 @@ function App() {
                 if (ref(MOUNTED)) swal({
                     className: "app__swal",
                     button: false,
-                    content: <p>Your rebase transaction was submitted to the blockchain to be confirmed.  If you were the first person to call rebase, then you should see the reward tokens in your wallet soon.  Awesome!  You can check the transaction <a href={"https://kovan.etherscan.io/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
+                    content: <p>Your rebase transaction was submitted to the blockchain to be confirmed.  If you were the first person to call rebase, then you should see the reward tokens in your wallet soon.  Awesome!  You can check the transaction <a href={"https://bscscan.com/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
                 });
                 
             } catch (e) {
@@ -606,7 +630,7 @@ function App() {
                 className: "app__swal",
                 button: false,
                 content: 
-                <p>Enter an amount of UNI-V2 tokens to stake.</p>
+                <p>Enter an amount of CAKE-LP tokens to stake.</p>
             });
             return;
         }
@@ -617,7 +641,7 @@ function App() {
                 className: "app__swal",
                 button: false,
                 content: 
-                <p>The amount of UNI-V2 tokens you've entered exceeds your current balance.</p>
+                <p>The amount of CAKE-LP tokens you've entered exceeds your current balance.</p>
             });
             return;
         }
@@ -646,7 +670,7 @@ function App() {
                 className: "app__swal",
                 button: false,
                 content: 
-                    <p>This pool is in an emergency state, so staking has been disabled.  If you have UNI-V2 tokens in the pool, please unstake them.  Sorry for the inconvenience!</p>
+                    <p>This pool is in an emergency state, so staking has been disabled.  If you have CAKE-LP tokens in the pool, please unstake them.  Sorry for the inconvenience!</p>
             }).then(() => {
                 setStakeLoading(false);
                 setStakeApproving(false);
@@ -677,7 +701,7 @@ function App() {
                     swal({
                         className: "app__swal",
                         button: false,
-                        content: <p>Your stake was submitted to the blockchain to be confirmed, and you'll be earning rewards shortly.  Nice!  You can check the transaction <a href={"https://kovan.etherscan.io/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
+                        content: <p>Your stake was submitted to the blockchain to be confirmed, and you'll be earning rewards shortly.  Nice!  You can check the transaction <a href={"https://bscscan.com/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
                     });
                 }
 
@@ -709,7 +733,7 @@ function App() {
                 className: "app__swal",
                 button: false,
                 content: 
-                <p>Enter an amount of UNI-V2 tokens to unstake.</p>
+                <p>Enter an amount of CAKE-LP tokens to unstake.</p>
             });
             return;
         }
@@ -720,7 +744,7 @@ function App() {
                 className: "app__swal",
                 button: false,
                 content: 
-                <p>The amount of UNI-V2 tokens you've entered exceeds your currently staked balance.</p>
+                <p>The amount of CAKE-LP tokens you've entered exceeds your currently staked balance.</p>
             });
             return;
         }
@@ -745,7 +769,7 @@ function App() {
                         button: false,
                         content: 
                             <div>
-                                <p>Your transaction was submitted to the blockchain to be confirmed.  You should be seeing your UNI-V2 tokens in your wallet soon.  You can check the transaction <a href={"https://kovan.etherscan.io/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
+                                <p>Your transaction was submitted to the blockchain to be confirmed.  You should be seeing your CAKE-LP tokens in your wallet soon.  You can check the transaction <a href={"https://bscscan.com/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
                                 <p>Unfortunately, because the pool was forced to close due to the emergency state being activated, Zephyr rewards will not be distributed.  Sincerest apologies for any inconvenience this has caused!</p>
                             </div>
                     });
@@ -758,7 +782,7 @@ function App() {
                         button: false,
                         content: 
                             <div>
-                                <p>Your transaction was submitted to the blockchain to be confirmed.  You should be seeing both your UNI-V2 tokens and your Zephyr reward tokens in your wallet soon.  Sweet!  You can check the transaction <a href={"https://kovan.etherscan.io/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
+                                <p>Your transaction was submitted to the blockchain to be confirmed.  You should be seeing both your CAKE-LP tokens and your Zephyr reward tokens in your wallet soon.  Sweet!  You can check the transaction <a href={"https://bscscan.com/tx/" + tx.hash} target="_blank" rel="noreferrer">here</a>.</p>
                             </div>
                     });
 
@@ -1164,7 +1188,8 @@ function App() {
                     </ButtonBase>
 
                     <ButtonBase>
-                        <a href="https://app.uniswap.org/#/swap?outputCurrency=0x6C4d9837A8e983Bd3444cfE171AF9e8aeC685A45" target="_blank" rel="noreferrer">Buy ZPHR</a>
+                        {/* <a href="https://app.uniswap.org/#/swap?outputCurrency=0x6C4d9837A8e983Bd3444cfE171AF9e8aeC685A45" target="_blank" rel="noreferrer">Buy ZPHR</a> */}
+                        <a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xb7cc4ad11833b20C07739c4152E73E32Fc5b6413" target="_blank" rel="noreferrer">Buy ZPHR</a>
                     </ButtonBase>
 
                 </div>
@@ -1180,6 +1205,7 @@ function App() {
                             value={usingBinance()} />
                     </ThemeProvider>
                     <span style={chainColorBSC()}>Binance</span> */}
+                    <p>Due to Ethereum's excessive gas fees, Zephyr is only available on Binance SmartChain for the time being.  The YFKA Exchange feature will be unavailable until the Zephyr contracts are formally deployed to Ethereum.</p>
                 </div>
 
                 <div className="activities__wrapper">
@@ -1213,17 +1239,19 @@ function App() {
 
                         <div className="activity__description">
                             <h1>Stake</h1>
-                            <p>Provide liquidity on Uniswap, then stake your UNI-V2 tokens to earn Zephyr.  Rewards are distributed according to your percentage ownership of the pool and the amount of time staked.  Redeem your rewards at any time.  A large portion of Zephyr's supply will be distributed as staking rewards.</p>
+                            <p>Provide liquidity on PancakeSwap, then stake your CAKE-LP tokens to earn Zephyr.  Rewards are distributed according to your percentage ownership of the pool and the amount of time staked.  Redeem your rewards at any time.  A large portion of Zephyr's supply will be distributed as staking rewards.</p>
                         </div>
 
                         <div className="activity__statistics activity__stake">
-
+                            <div className="activity__overlay">
+                                <p>Staking begins soon.  Get your CAKE-LP tokens ready!</p>
+                            </div>
                             <h1>{displayDaysRemaining()}</h1>
                             <p>Rewards Available: {displayStakingPoolBalance()}</p>
                             <p>Global Stake: {displayGlobalStake()}</p>
                             <p>Your Ownership: {displayUserOwnershipPercentage()}</p>
                             <p>Your Rewards: {displayUserRewards()}</p>
-                            <input placeholder="UNI-V2 Amount..." type="number" id="staking-amount"></input>
+                            <input placeholder="CAKE-LP Amount..." type="number" id="staking-amount"></input>
                             <div className="activity__stake-button">
                                 <ButtonBase
                                     disabled={stakeLoading}
@@ -1258,6 +1286,9 @@ function App() {
                         </div>
 
                         <div className="activity__statistics activity__exchange">
+                            <div className="activity__overlay">
+                                <p>Unavailable until Zephyr launches on Ethereum.</p>
+                            </div>
                             <h1>{displayYfkaExchanged()}</h1>
                             <p>YFKA Limit: {displayYfkaExchangeLimit()}</p>
                             <p>ZPHR Available: {displayExchangeRewardsRemaining()}</p>
@@ -1301,7 +1332,7 @@ function App() {
                     <div className="activity__statistics activity__contracts">
                         <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/Zephyr.sol" target="_blank" rel="noreferrer">Zephyr Token</a>
                         <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/RebaseController.sol" target="_blank" rel="noreferrer">Rebase Controller</a>
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/UniswapRates.sol" target="_blank" rel="noreferrer">Uniswap Rates</a>
+                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/PancakeSwapRates.sol" target="_blank" rel="noreferrer">PancakeSwap Rates</a>
                         <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/Distribution.sol" target="_blank" rel="noreferrer">BTS Distribution</a>
                         <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/StakingPool.sol" target="_blank" rel="noreferrer">Staking Pool</a>
                         <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/YfkaExchange.sol" target="_blank" rel="noreferrer">YFKA Exchange</a>
