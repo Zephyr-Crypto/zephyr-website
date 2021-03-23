@@ -9,7 +9,14 @@ import swal from '@sweetalert/with-react';
 import { FaTelegramPlane } from 'react-icons/fa';
 import { FaGithub } from 'react-icons/fa';
 import { MdRefresh } from 'react-icons/md';
+import { BsPieChartFill } from 'react-icons/bs';
+import { CgArrowsExchange } from 'react-icons/cg';
+import { RiExchangeFundsLine } from 'react-icons/ri';
+import { GiReceiveMoney } from 'react-icons/gi';
+import { FaFileContract } from 'react-icons/fa';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import etherscan from './images/etherscan-logo.png';
+import bscscan from './images/bscscan-logo.png';
 
 import { IERC20_ABI } from './abi/IERC20';
 import { REBASE_CONTROLLER_ABI } from './abi/RebaseController';
@@ -1172,6 +1179,10 @@ function App() {
 
             <section className="hero">
 
+                <div className="header__details">
+                    
+                </div>
+
                 <h1>Zephyr</h1>
                 <p>A rebasing token dedicated to the BTS community</p>
                 
@@ -1210,14 +1221,15 @@ function App() {
 
                 <div className="activities__wrapper">
 
-                    <div className="activity">
+                    <div className="activity activity__rebase">
 
                         <div className="activity__description">
-                            <h1>Rebase</h1>
+                            
+                            <h1><RiExchangeFundsLine size={28} />Rebase</h1>
                             <p>Once every 23 hours, the supply of Zephyr can be readjusted based on the token's percent change in price, up to a maximum of 1% in either positive or negative direction.  Be the person to call rebase and earn Zephyr.  Consecutive positive rebases will result in a bonus to rewards, all the way up to 100x.</p>
                         </div>
 
-                        <div className="activity__statistics activity__rebase">
+                        <div className="activity__statistics">
                             <h1>{displayPercentChange()}</h1>
                             <p>Current Supply: {displayTotalSupply()}</p>
                             <p>Rebased Supply: {displayTotalSupplyAfterRebase()}</p>
@@ -1235,14 +1247,14 @@ function App() {
 
                     </div>
 
-                    <div className="activity">
+                    <div className="activity activity__stake">
 
                         <div className="activity__description">
-                            <h1>Stake</h1>
+                            <h1><GiReceiveMoney size={28} />Stake</h1>
                             <p>Provide liquidity on PancakeSwap, then stake your CAKE-LP tokens to earn Zephyr.  Rewards are distributed according to your percentage ownership of the pool and the amount of time staked.  Redeem your rewards at any time.  A large portion of Zephyr's supply will be distributed as staking rewards.</p>
                         </div>
 
-                        <div className="activity__statistics activity__stake">
+                        <div className="activity__statistics">
                             <div className="activity__overlay">
                                 <p>Staking begins soon.  Get your CAKE-LP tokens ready!</p>
                             </div>
@@ -1278,14 +1290,14 @@ function App() {
 
                     </div>
 
-                    <div className="activity">
+                    <div className="activity activity__exchange">
 
                         <div className="activity__description">
-                            <h1>Exchange</h1>
+                            <h1><CgArrowsExchange size={32} />Exchange</h1>
                             <p>A minimum of 10% of Zephyr's total supply will be distributed through YFKA Exchange.  If you locked in a high yield rate as a YFKA farmer, this is your chance to take advantage of it.  Keep farming and exchanging for as long as there remains Zephyr available in the pool.</p>
                         </div>
 
-                        <div className="activity__statistics activity__exchange">
+                        <div className="activity__statistics">
                             <div className="activity__overlay">
                                 <p>Unavailable until Zephyr launches on Ethereum.</p>
                             </div>
@@ -1321,24 +1333,100 @@ function App() {
 
             </section>
 
-            <section className="contracts">
-                <div className="activity">
+            <section className="tokenspecs">
 
-                    <div className="activity__description">
-                        <h1>Contracts</h1>
-                        <p>All contracts related to Zephyr have been carefully reviewed and tested, but they have not been professionally audited.  Please look over the contracts for yourself before deciding to purchase Zephyr tokens, and always invest your hard-earned money responsibly.</p>
+                <div className="activities__wrapper activities__wrapper-tokenspecs">
+
+                    <div className="activity activity__distribution">
+
+                        <div className="activity__description">
+                            <h1><BsPieChartFill size={28} />Distribution</h1>
+                            <p>100% of the token supply will be used to reward the community and facilitate interest and growth in the project.  There are many options for how the funds can be used, and community input will be essential to the process.  Initially, tokens will be allocated to the following programs:</p>
+                            <ul>
+                                <li>• 20% of the total supply allocated to BTS community (any wallet which interacted with a BTS token prior to March 10, 2021 is eligible to claim).  Unclaimed tokens will return to the ecosystem pool.</li>
+                                <li>• 10% of the total supply allocated to YFKA exchange (only applicable to the Ethereum blockchain).</li>
+                                <li>• 5% of the total supply allocated to Rebase rewards.</li>
+                                <li>• Ongoing staking pools to reward liquidity providers.</li>
+                            </ul>
+                            <p></p>
+                            <p>Rather than locking up an arbitrary amount of the supply as developer rewards, Zephyr instead places a small fee of 0.1% on transfers.  The reasoning behind this approach: </p>
+                            <ul>
+                                <li>• The community never has to worry about developer rewards being unlocked and dumped on the open market, since they are awarded gradually and in small amounts.</li>
+                                <li>• Developer rewards are correlated to the health and ongoing success of the project, giving incentive to continued development and a long term perspective.</li>
+                                <li>• The supply of tokens that would have been locked up as developer rewards can instead be utilized in additional ecosystem programs to benefit the entire community.</li>
+                            </ul>
+                        </div>
+
                     </div>
 
-                    <div className="activity__statistics activity__contracts">
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/Zephyr.sol" target="_blank" rel="noreferrer">Zephyr Token</a>
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/RebaseController.sol" target="_blank" rel="noreferrer">Rebase Controller</a>
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/PancakeSwapRates.sol" target="_blank" rel="noreferrer">PancakeSwap Rates</a>
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/Distribution.sol" target="_blank" rel="noreferrer">BTS Distribution</a>
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/StakingPool.sol" target="_blank" rel="noreferrer">Staking Pool</a>
-                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/YfkaExchange.sol" target="_blank" rel="noreferrer">YFKA Exchange</a>
+                    <div className="activity activity__contracts">
+
+                        <div className="activity__description">
+                            <h1><FaFileContract size={28} />Contracts & Addresses</h1>
+                            <p>All contracts related to Zephyr have been carefully reviewed and tested, but they have not been professionally audited.  Please look over the contracts for yourself before deciding to purchase Zephyr tokens, and always invest your hard-earned money responsibly.</p>
+
+                            <div className="list-wrapper">
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/Zephyr.sol" target="_blank" rel="noreferrer">Zephyr Token</a>
+                                        <div className="scanlogos">
+                                            <a href="https://etherscan.io/address/0xb7cc4ad11833b20C07739c4152E73E32Fc5b6413" target="_blank" rel="noreferrer"><img src={etherscan} alt="etherscan" /></a>
+                                            <a href="https://bscscan.com/address/0xb7cc4ad11833b20C07739c4152E73E32Fc5b6413" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/RebaseController.sol" target="_blank" rel="noreferrer">Rebase Controller</a>
+                                        <div className="scanlogos">
+                                            <a href="https://bscscan.com/address/0x49d2fd0995B3C51840017D54aAEc750069dF5d8d" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/PancakeSwapRates.sol" target="_blank" rel="noreferrer">PancakeSwap Rates</a>
+                                        <div className="scanlogos">
+                                            <a href="https://bscscan.com/address/0x7d804929F6b59eeA8E1a1a88B0fA15093cF76656" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/Distribution.sol" target="_blank" rel="noreferrer">BTS Distribution</a>
+                                        <div className="scanlogos">
+                                            <a href="https://bscscan.com/address/0xB57F8AA6447f48e8524ae9b7dbc430235D0D32AA" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/StakingPool.sol" target="_blank" rel="noreferrer">Staking Pool</a>
+                                        <div className="scanlogos">
+                                            <a href="https://bscscan.com/address/0x0c8a441267018e734c4779560e85a1F43363224C" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Zephyr-Crypto/zephyr-contracts/blob/master/contracts/YfkaExchange.sol" target="_blank" rel="noreferrer">YFKA Exchange</a>
+                                    </li>
+                                </ul>
+
+                                <ul>
+                                    <li>
+                                        <span style={{ marginRight: "1rem" }}>Developer</span>
+                                        <div className="scanlogos">
+                                            <a href="https://etherscan.io/address/0xC648eb00C3A84C953C4A2aF32eFfa65B14d27489" target="_blank" rel="noreferrer"><img src={etherscan} alt="etherscan" /></a>
+                                            <a href="https://bscscan.com/address/0xC648eb00C3A84C953C4A2aF32eFfa65B14d27489" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span style={{ marginRight: "1rem" }}>Ecosystem</span>
+                                        <div className="scanlogos">
+                                            <a href="https://etherscan.io/address/0xf1FefE5BA7cccdA972A40F8F679d3e325397d52F" target="_blank" rel="noreferrer"><img src={etherscan} alt="etherscan" /></a>
+                                            <a href="https://bscscan.com/address/0xf1FefE5BA7cccdA972A40F8F679d3e325397d52F" target="_blank" rel="noreferrer"><img src={bscscan} alt="bscscan" /></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
+
             </section>
 
             <section className="footer">

@@ -10,6 +10,8 @@
     color: #222;
 }
 
+
+
 .hero {
     /* border: 1px solid red; */
     display: flex;
@@ -22,6 +24,22 @@
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
+
+    position: relative;
+}
+
+.header__details {
+    /* border: 1px solid red; */
+    width: 100%;
+    max-width: 60rem;
+    position: absolute;
+    top: 0;
+    text-align: right;
+}
+
+.header__details p {
+    padding: 0 1rem;
+    font-size: .9rem;
 }
 
 .hero h1 {
@@ -100,7 +118,7 @@
     /* margin-top: 3rem; */
     /* padding: .7rem 2rem; */
     min-height: 3rem;
-    padding: .5rem;
+    /* padding: .5rem; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -118,7 +136,7 @@
 .activities__blockchainSwitch p {
     /* border: 1px solid red; */
     color: #EEC632;
-    max-width: 40rem;
+    max-width: 63rem;
     padding: 0 1rem;
     line-height: 1.5rem;
 }
@@ -140,7 +158,6 @@
     margin-bottom: 3rem;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
 .activity__overlay {
@@ -165,7 +182,8 @@
     padding: 1rem 2rem;
     margin: 1rem;
     border-radius: 7px;
-    background: rgba(0, 0, 0, 0.85)
+    background: rgba(0, 0, 0, 0.85);
+    line-height: 1.5rem;
 }
 
 .activity__description {
@@ -176,6 +194,33 @@
     padding: 1rem;
     line-height: 2rem;
     flex-basis: 50%;
+    /* position: relative; */
+}
+
+.activity__description ul {
+    border-radius: 5px;
+    list-style-type: none;
+    padding: 2rem;
+}
+
+.activity__distribution ul {
+    background-color:#92ACB8;
+}
+
+.activity__contracts ul {
+    border: 2px solid #92ACB8;
+}
+
+.activity__description svg {
+    /* position: absolute; */
+    color: #2F4C60;
+}
+
+.activity__rebase svg,
+.activity__stake svg,
+.activity__distribution svg,
+.activity__contracts svg {
+    margin-bottom: .3rem;
 }
 
 .activity__description h1 {
@@ -184,6 +229,11 @@
     text-transform: uppercase;
     font-weight: 500;
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .activity__statistics {
@@ -232,11 +282,11 @@
     transition: all .1s;
 }
 
-.activity > .activity__rebase button {
+.activity__rebase button {
     background-color: #2CB7EA;
 }
 
-.activity > .activity__rebase button:disabled {
+.activity__rebase button:disabled {
     background-color: #F5F1F3;
     border: 2px solid #92ACB8;
     color: #888;
@@ -295,15 +345,15 @@
     background-color: #92ACB8;
 }
 
-.activity__rebase h1 {
+.activity__rebase .activity__statistics h1 {
     color: #53D1FF;
 }
 
-.activity__stake h1 {
+.activity__stake .activity__statistics h1 {
     color: #EEC632;
 }
 
-.activity__exchange h1 {
+.activity__exchange .activity__statistics h1 {
     color: #FF7353;
 }
 
@@ -328,42 +378,42 @@
     cursor: pointer;
 }
 
-.activities__refresh span {
+.tokenspecs {
     /* border: 1px solid red; */
-    /* padding-top: .7rem; */
-}
-
-.contracts {
     width: 100%;
-    padding: 3rem 0 0 0;
     background-color: #20313C;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-.contracts > .activity {
-    padding: 0 1rem;
+.activity__contracts a {
+    /* font-family: "Roboto Mono", monospace; */
+    font-size: 1rem;
+    margin: .5rem 0;
+    margin-right: 1rem;
+    line-height: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    /* display: block; */
 }
 
-.activity__contracts {
-    background-color: #2F4C60;
-    color: #F5F1F3;
+.activity__contracts a:hover {
+    /* color: #20313C; */
+    text-decoration: underline;
+}
+
+.activity__contracts ul li {
+    font-family: "Roboto Mono", monospace;
+    padding-bottom: .5rem;
     display: flex;
     flex-direction: column;
 }
 
-.activity__contracts a {
-    font-family: "Roboto Mono", monospace;
-    font-size: 1rem;
-    margin: .5rem 0;
-    line-height: 1.5rem;
-    text-decoration: none;
-    color: inherit;
-}
-
-.activity__contracts a:hover {
-    color: #53D1FF;
-    text-decoration: underline;
+.activity__contracts ul li img {
+    height: 18px;
+    width: auto;
 }
 
 .footer {
@@ -499,6 +549,10 @@
         font-size: .9rem;
     }
 
+    .activity__description ul li {
+        font-size: .9rem;
+    }
+
     .activity__statistics {
         margin-top: 0;
         margin-left: .7rem;
@@ -543,8 +597,31 @@
         font-size: .9rem;
     }
 
-}
+    .activities__wrapper-tokenspecs > .activity {
+        width: 100%;
+    }
 
+    .activity__distribution .activity__description {
+        max-width: 49.5em;
+        flex-basis: 100%;
+    }
+
+    .activity__contracts .activity__description {
+        max-width: 49.5rem;
+        flex-basis: 100%;
+    }
+
+    .activity__contracts .activity__description .list-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .activity__contracts .activity__description .list-wrapper ul {
+        flex-basis: 35%;
+    }
+
+}
 
 
 @media only screen and (min-width: 1280px) {
@@ -565,13 +642,13 @@
 
     .activity {
         flex-direction: column;
-        width: 21rem;
+        width: 22rem;
         padding: 0 2rem;
     }
 
     .activity__description {
         flex-basis: none;
-        min-height: 21rem;
+        min-height: 23rem;
     }
 
     .activity__description p {
@@ -584,22 +661,47 @@
         margin-top: .7rem;
     }
 
-    .contracts > .activity {
+    .tokenspecs {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .tokenspecs > .activity {
         width: auto;
         max-width: none;
-
-        flex-direction: row;
     }
 
-    .contracts > .activity > .activity__description {
-        max-width: 30rem;
+    .tokenspecs > .activity > .activity__description {
+        max-width: 32.5rem;
         min-height: inherit;
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
 
-    .contracts > .activity > .activity__statistics {
+    .tokenspecs > .activity > .activity__statistics {
         margin-top: 0;
         margin-left: .7rem;
         min-width: 17rem;
+    }
+
+    .activity__distribution .activity__description {
+        max-width: 33em;
+    }
+
+    .activity__contracts .activity__description {
+        max-width: 33rem;
+    }
+
+    .activity__contracts .activity__description .list-wrapper {
+        /* flex-direction: column; */
+    }
+
+    .activity__contracts .activity__description .list-wrapper ul {
+        
+    }
+
+    .activity__contracts .activity__description .list-wrapper ul li {
+        /* flex-basis: 20%; */
     }
 
 }
