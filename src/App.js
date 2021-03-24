@@ -1128,6 +1128,7 @@ function App() {
     }
 
     const displayNetwork = () => {
+        if (!ref(account)) return "";
         if (usingEthereum()) return "Ethereum";
         if (usingBinance()) return "Binance SC";
         return "";
