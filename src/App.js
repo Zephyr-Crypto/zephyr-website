@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useReducer } from "react";
 import { ethers } from 'ethers';
 import useInterval from "./hooks/useInterval";
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -64,6 +64,9 @@ function App() {
         return () => MOUNTED.current = false;
     }, []);
 
+    //Used to force renders when necessary
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+
     //Countdown timer on rebase button
     useInterval(() => {
         if (secondsUntilRebase > 0) setSecondsUntilRebase(secondsUntilRebase.sub(1));
@@ -106,7 +109,7 @@ function App() {
 
     }, []);
 
-    const networkId = useRef();
+    const chainId = useRef();
     const web3Provider = useRef();
     const account = useRef();
 
@@ -114,9 +117,9 @@ function App() {
     //https://chainid.network/
     function onNetworkChanged(id) {
 
-        if (id == networkId) return;
+        if (id == chainId) return;
 
-        networkId.current = id;
+        chainId.current = id;
         web3Provider.current = getWeb3Provider(id);
         setContractAddresses(id);
         // setBlockchainSwitchState(usingBinance(id));
@@ -145,7 +148,7 @@ function App() {
     }
 
     //Creates an ethers.js provider for the given network ID
-    function getWeb3Provider(id = ref(networkId)) {
+    function getWeb3Provider(id = ref(chainId)) {
 
         //BSC Mainnet
         if (id == 56) return new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org");
@@ -163,11 +166,11 @@ function App() {
 
     }
 
-    function usingEthereum(id = ref(networkId)) {
+    function usingEthereum(id = ref(chainId)) {
         return id == 1 || id == 42;
     }
 
-    function usingBinance(id = ref(networkId)) {
+    function usingBinance(id = ref(chainId)) {
         return id == 56 || id == 97;
     }
 
@@ -175,6 +178,7 @@ function App() {
     function onAccountChanged(acc) {
 
         account.current = acc;
+        forceUpdate();
         updateUserSpecificBlockchainData();
 
     }
@@ -202,7 +206,7 @@ function App() {
     const yfkaTokenAddress = useRef();
     const yfkaExchangeAddress = useRef();
 
-    function setContractAddresses(id = ref(networkId)) {
+    function setContractAddresses(id = ref(chainId)) {
 
         //Mainnet
         if (id == 1) {
@@ -970,6 +974,20 @@ function App() {
         window.location.reload();
     }
 
+    const connectOnClick = () => {
+        
+        if (!window.ethereum) {
+            return swal({
+                className: "app__swal",
+                button: false,
+                content: <p>You'll need Metamask in order to connect.  Get it at <a href="https://www.metamask.io/" target="_blank" rel="noreferrer">Metamask.io</a> and try again.</p>
+            });
+        }
+        
+        window.ethereum.enable();
+        
+    }
+
     // const blockchainSwitchOnClick = (event) => {
     //     // setBlockchainSwitchState(event.target.checked);
     // }
@@ -1103,6 +1121,18 @@ function App() {
         return userZphrRedeemed >= 0 ? Number(userZphrRedeemed / 10**9).toLocaleString() : "...";
     }
 
+    const displayConnect = () => {
+        if (!ref(account)) return "Connect";
+        const acc = ref(account).toString();
+        return acc.substr(0, 4) + "..." + acc.slice(-4);
+    }
+
+    const displayNetwork = () => {
+        if (usingEthereum()) return "Ethereum";
+        if (usingBinance()) return "Binance SC";
+        return "";
+    }
+
 
     // UTILITIES
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1180,7 +1210,8 @@ function App() {
             <section className="hero">
 
                 <div className="header__details">
-                    
+                    <p className="header-connect" onClick={connectOnClick}>{displayConnect()}</p>
+                    <p className="header-network">{displayNetwork()}</p>
                 </div>
 
                 <h1>Zephyr</h1>
@@ -1251,7 +1282,7 @@ function App() {
 
                         <div className="activity__description">
                             <h1><GiReceiveMoney size={28} />Stake</h1>
-                            <p>Provide liquidity on PancakeSwap, then stake your CAKE-LP tokens to earn Zephyr.  Rewards are distributed according to your percentage ownership of the pool and the amount of time staked.  Redeem your rewards at any time.  A large portion of Zephyr's supply will be distributed as staking rewards.</p>
+                            <p><a href="https://exchange.pancakeswap.finance/#/add/0xb7cc4ad11833b20C07739c4152E73E32Fc5b6413/BNB" target="_blank" rel="noreferrer">Provide liquidity on PancakeSwap</a>, then stake your CAKE-LP tokens to earn Zephyr.  Rewards are distributed according to your percentage ownership of the pool and the amount of time staked.  Redeem your rewards at any time.  A large portion of Zephyr's supply will be distributed as staking rewards.</p>
                         </div>
 
                         <div className="activity__statistics">
